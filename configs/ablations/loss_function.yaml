@@ -1,0 +1,39 @@
+# Ablation D: Loss Function (§11.4)
+# Plain CE vs class-weighted CE vs focal loss
+# Run with: python -m src.training.run_ablations --ablation loss_function
+
+experiment_name: "ablation_loss_function"
+description: "§11.4 — Impact of loss function on class-imbalanced classification"
+output_dir: "experiments/ablations/loss_function"
+
+variants:
+  - name: "plain_ce"
+    loss: "cross_entropy"
+    description: "Plain cross-entropy (no class weighting)"
+  - name: "weighted_ce"
+    loss: "cross_entropy_weighted"
+    description: "Class-weighted cross-entropy (inverse frequency)"
+  - name: "focal_gamma2"
+    loss: "focal"
+    focal_gamma: 2.0
+    description: "Focal loss (gamma=2.0)"
+
+model:
+  tier: "tier2"
+  model_type: "bilstm_attention"
+  embedding_dim: 300
+  embedding_source: "glove"
+  hidden_size: 128
+  num_layers: 1
+  bidirectional: true
+  dropout: 0.3
+
+data:
+  max_sequence_length: 128
+
+training:
+  seeds: [13, 42, 2024]
+  batch_size: 64
+  learning_rate: 0.001
+  epochs: 15
+  early_stopping_patience: 3

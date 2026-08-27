@@ -1,0 +1,16 @@
+experiment_name: "tier1_nb"
+description: "Tier 1: Multinomial Naive Bayes baseline"
+output_dir: "experiments/tier1_nb"
+label_scheme: "5class"
+
+data:
+  dataset: "amazon"
+  max_features_tfidf: 50000
+
+model:
+  tier: "tier1"
+  model_type: "nb"
+  nb_alpha: 1.0
+
+training:
+  seeds: [13, 42, 2024]

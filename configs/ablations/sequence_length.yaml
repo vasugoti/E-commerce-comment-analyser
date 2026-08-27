@@ -1,0 +1,41 @@
+# Ablation F: Sequence Length (§11.6)
+# 64 vs 128 vs 256 tokens
+# Run with: python -m src.training.run_ablations --ablation sequence_length
+
+experiment_name: "ablation_sequence_length"
+description: "§11.6 — How much context do reviews actually need?"
+output_dir: "experiments/ablations/sequence_length"
+
+variants:
+  - name: "len_64"
+    max_sequence_length: 64
+    description: "Truncation at 64 tokens"
+  - name: "len_128"
+    max_sequence_length: 128
+    description: "Truncation at 128 tokens (baseline)"
+  - name: "len_256"
+    max_sequence_length: 256
+    description: "Truncation at 256 tokens"
+
+# Tier 2 model for local execution
+model:
+  tier: "tier2"
+  model_type: "bilstm_attention"
+  embedding_dim: 300
+  embedding_source: "glove"
+  hidden_size: 128
+  dropout: 0.3
+
+# Tier 3 equivalent settings (for Colab configs)
+tier3_settings:
+  pretrained_model: "distilbert-base-uncased"
+  batch_size: 32
+  learning_rate: 0.00002
+
+training:
+  seeds: [13, 42, 2024]
+  batch_size: 64
+  learning_rate: 0.001
+  epochs: 15
+  early_stopping_patience: 3
+  loss: "cross_entropy_weighted"

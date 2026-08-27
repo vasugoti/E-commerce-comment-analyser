@@ -1,0 +1,28 @@
+experiment_name: "tier2_bilstm"
+description: "Tier 2: BiLSTM + Attention with GloVe embeddings"
+output_dir: "experiments/tier2_bilstm"
+label_scheme: "5class"
+
+data:
+  max_sequence_length: 128
+
+model:
+  tier: "tier2"
+  model_type: "bilstm_attention"
+  embedding_dim: 300
+  embedding_source: "glove"
+  hidden_size: 128
+  num_layers: 1
+  bidirectional: true
+  dropout: 0.3
+  vocab_size: 30000
+
+training:
+  seeds: [13, 42, 2024]
+  batch_size: 64
+  learning_rate: 0.001
+  epochs: 15
+  early_stopping_patience: 3
+  early_stopping_metric: "macro_f1"
+  optimizer: "adam"
+  loss: "cross_entropy_weighted"

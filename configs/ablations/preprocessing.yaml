@@ -1,0 +1,50 @@
+# Ablation B: Preprocessing Variations (§11.2)
+# With/without stopword removal, with/without lemmatization, unigram vs uni+bigram
+# Run with: python -m src.training.run_ablations --ablation preprocessing
+
+experiment_name: "ablation_preprocessing"
+description: "§11.2 — Impact of preprocessing on Tier 1 classical ML"
+output_dir: "experiments/ablations/preprocessing"
+
+variants:
+  - name: "default_unibi"
+    ngram_range: [1, 2]
+    remove_stopwords: false
+    lemmatize: false
+    description: "Uni+bi-gram, no stopword removal, no lemmatization (baseline)"
+
+  - name: "unigram_only"
+    ngram_range: [1, 1]
+    remove_stopwords: false
+    lemmatize: false
+    description: "Uni-gram only"
+
+  - name: "with_stopword_removal"
+    ngram_range: [1, 2]
+    remove_stopwords: true
+    lemmatize: false
+    description: "Uni+bi-gram with stopword removal"
+
+  - name: "with_lemmatization"
+    ngram_range: [1, 2]
+    remove_stopwords: false
+    lemmatize: true
+    description: "Uni+bi-gram with lemmatization"
+
+  - name: "full_preprocessing"
+    ngram_range: [1, 2]
+    remove_stopwords: true
+    lemmatize: true
+    description: "Uni+bi-gram with both stopword removal and lemmatization"
+
+model:
+  tier: "tier1"
+  model_type: "svm"
+  svm_C: 1.0
+  svm_class_weight: "balanced"
+
+data:
+  max_features_tfidf: 50000
+
+training:
+  seeds: [13, 42, 2024]

@@ -1,0 +1,15 @@
+experiment_name: "tier3_distilbert"
+description: "Tier 3: DistilBERT fine-tuning on Colab"
+output_dir: "experiments/tier3_distilbert"
+
+model:
+  tier: "tier3"
+  model_type: "distilbert"
+  pretrained_model: "distilbert-base-uncased"
+  
+training:
+  batch_size: 32
+  learning_rate: 0.00002
+  weight_decay: 0.01
+  epochs: 3
+  fp16: true

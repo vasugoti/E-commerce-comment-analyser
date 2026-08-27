@@ -1,0 +1,22 @@
+experiment_name: "tier1_svm"
+description: "Tier 1: Linear SVM baseline (TF-IDF uni+bi-gram, C=1.0)"
+output_dir: "experiments/tier1_svm"
+label_scheme: "5class"
+
+data:
+  dataset: "amazon"
+  categories: ["Electronics", "Home_and_Kitchen"]
+  max_samples_per_category: 125000
+  max_features_tfidf: 50000
+  train_ratio: 0.8
+  val_ratio: 0.1
+  test_ratio: 0.1
+
+model:
+  tier: "tier1"
+  model_type: "svm"
+  svm_C: 1.0
+  svm_class_weight: "balanced"
+
+training:
+  seeds: [13, 42, 2024]

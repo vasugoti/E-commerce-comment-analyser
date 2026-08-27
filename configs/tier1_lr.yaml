@@ -1,0 +1,17 @@
+experiment_name: "tier1_lr"
+description: "Tier 1: Logistic Regression baseline"
+output_dir: "experiments/tier1_lr"
+label_scheme: "5class"
+
+data:
+  dataset: "amazon"
+  max_features_tfidf: 50000
+
+model:
+  tier: "tier1"
+  model_type: "lr"
+  lr_C: 1.0
+  lr_solver: "lbfgs"
+
+training:
+  seeds: [13, 42, 2024]

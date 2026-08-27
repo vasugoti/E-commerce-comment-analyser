@@ -1,0 +1,34 @@
+# Ablation G: Data Volume / Learning Curve (§11.7)
+# 10% / 25% / 50% / 100% of the sampled Amazon training set
+# Run with: python -m src.training.run_ablations --ablation data_volume
+
+experiment_name: "ablation_data_volume"
+description: "§11.7 — Is more data or a better model the higher-leverage next step?"
+output_dir: "experiments/ablations/data_volume"
+
+variants:
+  - name: "pct_10"
+    train_fraction: 0.10
+    description: "10% of training data"
+  - name: "pct_25"
+    train_fraction: 0.25
+    description: "25% of training data"
+  - name: "pct_50"
+    train_fraction: 0.50
+    description: "50% of training data"
+  - name: "pct_100"
+    train_fraction: 1.00
+    description: "100% of training data (baseline)"
+
+# Uses SVM baseline for fast iteration
+model:
+  tier: "tier1"
+  model_type: "svm"
+  svm_C: 1.0
+  svm_class_weight: "balanced"
+
+data:
+  max_features_tfidf: 50000
+
+training:
+  seeds: [13, 42, 2024]

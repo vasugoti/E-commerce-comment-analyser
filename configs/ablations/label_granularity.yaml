@@ -1,0 +1,31 @@
+# Ablation A: Label Granularity (§11.1)
+# 5-class vs 3-class vs 2-class comparison
+# Run with: python -m src.training.run_ablations --ablation label_granularity
+
+experiment_name: "ablation_label_granularity"
+description: "§11.1 — Does collapsing labels help accuracy at the cost of fine-grained signal?"
+output_dir: "experiments/ablations/label_granularity"
+
+variants:
+  - name: "5class"
+    label_scheme: "5class"
+    num_classes: 5
+  - name: "3class"
+    label_scheme: "3class"
+    num_classes: 3
+  - name: "2class"
+    label_scheme: "2class"
+    num_classes: 2
+
+# Baseline model: SVM (cheapest, fastest iteration)
+model:
+  tier: "tier1"
+  model_type: "svm"
+  svm_C: 1.0
+  svm_class_weight: "balanced"
+
+data:
+  max_features_tfidf: 50000
+
+training:
+  seeds: [13, 42, 2024]

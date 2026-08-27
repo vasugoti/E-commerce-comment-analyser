@@ -1,0 +1,15 @@
+experiment_name: "absa_bert"
+description: "ABSA Module: BERT-base on SemEval-2014 Laptop domain"
+output_dir: "experiments/absa"
+
+model:
+  tier: "absa"
+  model_type: "absa_bert"
+  pretrained_model: "bert-base-uncased"
+
+training:
+  seeds: [42]
+  batch_size: 16
+  learning_rate: 0.00003
+  weight_decay: 0.01
+  epochs: 4

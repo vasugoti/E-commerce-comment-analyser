@@ -1,0 +1,48 @@
+# Ablation E: Fine-tuning Depth (§11.5)
+# Frozen backbone + linear head vs full fine-tune
+# Run with: python -m src.training.run_ablations --ablation finetuning_depth
+#
+# For Tier 2 (local): tests frozen vs unfrozen embeddings in BiLSTM
+# For Tier 3 (Colab): configs for frozen vs full fine-tune of DistilBERT
+
+experiment_name: "ablation_finetuning_depth"
+description: "§11.5 — Quantifies how much pretraining alone contributes"
+output_dir: "experiments/ablations/finetuning_depth"
+
+# Tier 2 variants (runnable locally)
+tier2_variants:
+  - name: "tier2_frozen_embeddings"
+    freeze_embeddings: true
+    description: "BiLSTM with frozen GloVe embeddings (never unfrozen)"
+  - name: "tier2_unfrozen_embeddings"
+    freeze_embeddings: false
+    description: "BiLSTM with GloVe embeddings unfrozen after epoch 1"
+
+# Tier 3 variants (for Colab execution)
+tier3_variants:
+  - name: "tier3_frozen_backbone"
+    model_type: "distilbert"
+    pretrained_model: "distilbert-base-uncased"
+    freeze_backbone: true
+    description: "Frozen DistilBERT + linear classification head"
+  - name: "tier3_full_finetune"
+    model_type: "distilbert"
+    pretrained_model: "distilbert-base-uncased"
+    freeze_backbone: false
+    description: "Full fine-tune of DistilBERT"
+
+model:
+  tier: "tier2"
+  model_type: "bilstm_attention"
+  embedding_dim: 300
+  embedding_source: "glove"
+  hidden_size: 128
+  dropout: 0.3
+
+training:
+  seeds: [13, 42, 2024]
+  batch_size: 64
+  learning_rate: 0.001
+  epochs: 15
+  early_stopping_patience: 3
+  loss: "cross_entropy_weighted"

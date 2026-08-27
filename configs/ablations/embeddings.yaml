@@ -1,0 +1,39 @@
+# Ablation C: Embedding Source (§11.3)
+# Random-init vs GloVe vs FastText on BiLSTM
+# Run with: python -m src.training.run_ablations --ablation embeddings
+
+experiment_name: "ablation_embeddings"
+description: "§11.3 — Impact of pretrained embedding initialization on Tier 2 DL"
+output_dir: "experiments/ablations/embeddings"
+
+variants:
+  - name: "random_init"
+    embedding_source: "random"
+    description: "Randomly initialized embeddings"
+  - name: "glove_300d"
+    embedding_source: "glove"
+    description: "GloVe 6B 300d pretrained embeddings"
+  - name: "fasttext_300d"
+    embedding_source: "fasttext"
+    description: "FastText 300d pretrained embeddings"
+
+model:
+  tier: "tier2"
+  model_type: "bilstm_attention"
+  embedding_dim: 300
+  hidden_size: 128
+  num_layers: 1
+  bidirectional: true
+  dropout: 0.3
+  vocab_size: 30000
+
+data:
+  max_sequence_length: 128
+
+training:
+  seeds: [13, 42, 2024]
+  batch_size: 64
+  learning_rate: 0.001
+  epochs: 15
+  early_stopping_patience: 3
+  loss: "cross_entropy_weighted"
